@@ -12,11 +12,15 @@ var app = express();
   // app.use(logger);
 // </middleware example>
 
-// Body Parser Middleware
+// Configures View Engine (templating) and Path to Views Folder
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// Configures Body Parser Middleware Usage
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-// Sets Path to Public Folder, or Static Folder (CSS files, jQuery, etc...)
+// Sets Path to Public (Static) Folder (CSS files, jQuery...just like SinatraLand)
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Easy to use this to make an API and just send JSON:
@@ -40,7 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // });
 
 app.get('/', function(req, res){
-  res.send('Hello');
+  res.render('index');
 })
 
 app.listen(3000, function(){
