@@ -43,9 +43,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 //   res.json(people);
 // });
 
+
+
 app.get('/', function(req, res){
-  res.render('index');
-})
+  res.render('index', {
+    title: 'Express Seems Neat'
+  });
+});
 
 app.listen(3000, function(){
   console.log("Matthew's first Express server has started!")
