@@ -4,14 +4,6 @@ const path = require('path');
 
 var app = express();
 
-// <middleware example>
-  // var logger = function(req, res, next){
-  //   console.log('Logging...');
-  //   next();
-  // }
-  // app.use(logger);
-// </middleware example>
-
 // Configures View Engine (templating) and Path to Views Folder
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -23,31 +15,36 @@ app.use(bodyParser.urlencoded({extended: false}));
 // Sets Path to Public (Static) Folder (CSS files, jQuery...just like SinatraLand)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Easy to use this to make an API and just send JSON:
-// var people = [
-//   {
-//     name: 'Matthew Black',
-//     age: 31
-//   },
-//   {
-//     name: 'Shari Black',
-//     age: 31
-//   },
-//   {
-//     name: 'Roger Federer',
-//     age: 36
-//   }
-// ]
+var users = [
+  {
+    id: 1,
+    first_name: "Matt",
+    last_name: "Black",
+    email: "matthew@email.com"
+  },
+  {
+    id: 2,
+    first_name: "Shari",
+    last_name: "Black",
+    email: "shari@email.com"
+  },
+  {
+    id: 3,
+    first_name: "Roger",
+    last_name: "Federer",
+    email: "roger@email.com"
+  }
+]
+  // Easy to use Express to make an API and just send JSON (HELLO REACT!):
+  // app.get('/', function(req, res){
+  //   res.json(users);
+  // });
 
-// app.get('/', function(req, res){
-//   res.json(people);
-// });
-
-
-
+// Sends the index.ejs view to be rendered
 app.get('/', function(req, res){
   res.render('index', {
-    title: 'Express Seems Neat'
+    title: 'Express Seems Neat',
+    peeps: users
   });
 });
 
