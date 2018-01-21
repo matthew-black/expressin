@@ -4,6 +4,7 @@ const path = require('path');
 const expressValidator = require('express-validator');
 const mongojs = require('mongojs');
 const db = mongojs('peepapp', ['peeps'])
+var ObjectId = mongojs.ObjectId
 
 var app = express();
 
@@ -27,11 +28,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Sends the index.ejs view to be rendered, gets peeps from MongoDB-Land
 app.get('/', function(req, res){
-  db.peeps.find(function (err, docs) {
+  db.peeps.find().sort({last_name: 1}, function (err, docs) {
     res.render('index', {
       peeps: docs
     });
-  })
+  });
 });
 
 app.post('/peeps', function(req, res){
@@ -41,7 +42,7 @@ app.post('/peeps', function(req, res){
 
   var errors = req.validationErrors();
   if(errors){
-    db.peeps.find(function (err, docs) {
+    db.peeps.find().sort({last_name: 1}, function (err, docs) {
       res.render('index', {
         peeps: docs,
         errors: errors
@@ -53,7 +54,7 @@ app.post('/peeps', function(req, res){
       last_name: req.body.last_name,
       email: req.body.email
     }
-    db.peeps.insert(newPeep, function(err, ress) {
+    db.peeps.insert(newPeep, function(err, res) {
       if(err){
         console.log(err);
       }
@@ -61,6 +62,16 @@ app.post('/peeps', function(req, res){
     res.redirect('/');
   }
 })
+
+app.delete('/peeps/:id', function(req, res){
+  var deleteMe = req.params.id;
+  db.peeps.remove({_id: ObjectId(deleteMe)}, function(err, result){
+    if(err){
+      console.log(err);
+    }
+    // res.redirect('/');
+  })
+});
 
 app.listen(3000, function(){
   console.log("Matthew's first Express server has started!")

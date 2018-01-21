@@ -27,7 +27,7 @@
 <h3>Here are all the peeps:</h3>
 <ul>
   <% peeps.forEach(function(peep){ %>
-    <li>Hi there <%= peep.first_name %> <%= peep.last_name %></li>
+    <li>Hi there <%= peep.first_name %> <%= peep.last_name %> - <a href="#" class="deletePeep" data-id="<%= peep._id %>">Delete</a></li>
   <% }) %>
 </ul>
 
