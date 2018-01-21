@@ -1,10 +1,23 @@
 <% include partials/header %>
 <h1>Hello from EJS-Land!</h1>
 <h3><%= title %></h3>
-<h3>Here are some peeps:</h3>
+<p>Add a peep:</p>
+<form method="POST" action="/peeps">
+  <label>First Name</label>
+  <br>
+  <input type="text" name="first_name">
+  <br>
+  <label>Last Name</label>
+  <br>
+  <input type="text" name="last_name">
+  <br><br>
+  <input type="submit" value="Add Peep">
+</form>
+<h3>Here are all the peeps:</h3>
 <ul>
   <% peeps.forEach(function(peep){ %>
     <li>Hi there <%= peep.first_name %> <%= peep.last_name %></li>
   <% }) %>
 </ul>
+
 <% include partials/footer %>
