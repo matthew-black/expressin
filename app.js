@@ -12,6 +12,12 @@ app.set('views', path.join(__dirname, 'views'));
 // Configures Body Parser Middleware Usage
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+
+// Global Variables
+app.use(function(req, res, next){
+  res.locals.errors = null;
+  next();
+})
 app.use(expressValidator());
 
 // Sets Path to Public (Static) Folder (CSS files, jQuery...just like SinatraLand)
@@ -57,12 +63,17 @@ app.post('/peeps', function(req, res){
   var errors = req.validationErrors();
   if(errors){
     console.log('ERRORS!');
+    res.render('index', {
+    title: 'Express Seems Neat',
+    peeps: users,
+    errors: errors
+  });
   } else {
     var newUser = {
       first_name: req.body.first_name,
       last_name: req.body.last_name
     }
-    console.log(newUser);
+    console.log('SUCCESS');
   }
 })
 
