@@ -1,7 +1,7 @@
 <% include partials/header %>
 <h1>Hello from EJS-Land!</h1>
-<h3><%= title %></h3>
-<p>Add a peep:</p>
+
+<h3>Add a peep:</h3>
 <% if(errors != null){ %>
   <ul>
   <% errors.forEach(function(error){ %>
@@ -17,6 +17,10 @@
   <label>Last Name</label>
   <br>
   <input type="text" name="last_name">
+  <br>
+  <label>Email</label>
+  <br>
+  <input type="text" name="email">
   <br><br>
   <input type="submit" value="Add Peep">
 </form>
