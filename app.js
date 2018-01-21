@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const expressValidator = require('express-validator');
 
 var app = express();
 
@@ -11,6 +12,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Configures Body Parser Middleware Usage
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(expressValidator());
 
 // Sets Path to Public (Static) Folder (CSS files, jQuery...just like SinatraLand)
 app.use(express.static(path.join(__dirname, 'public')));
@@ -47,6 +49,22 @@ app.get('/', function(req, res){
     peeps: users
   });
 });
+
+app.post('/peeps', function(req, res){
+  req.checkBody('first_name', 'First Name is required.').notEmpty();
+  req.checkBody('last_name', 'Last Name is required.').notEmpty();
+
+  var errors = req.validationErrors();
+  if(errors){
+    console.log('ERRORS!');
+  } else {
+    var newUser = {
+      first_name: req.body.first_name,
+      last_name: req.body.last_name
+    }
+    console.log(newUser);
+  }
+})
 
 app.listen(3000, function(){
   console.log("Matthew's first Express server has started!")
